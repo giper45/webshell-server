@@ -119,11 +119,14 @@ app.get('/logout',
     res.redirect(config.proxy_pass_prefix + '/login');
   });
 
-app.get('/',
-  require('connect-ensure-login').ensureLoggedIn(config.proxy_pass_prefix + '/login'),
-  function(req, res){
-    res.render('index', { user: req.user, proxy_pass_prefix: config.proxy_pass_prefix });
+  app.get('/', function(req, res) { 
+      res.render('index', { user: "kali", proxy_pass_prefix: config.proxy_pass_prefix}) 
   });
+//app.get('/',
+//  require('connect-ensure-login').ensureLoggedIn(config.proxy_pass_prefix + '/login'),
+//  function(req, res){
+//    res.render('index', { user: req.user, proxy_pass_prefix: config.proxy_pass_prefix });
+//  });
 
 //===============================================
 // Initiate http server
@@ -138,19 +141,21 @@ httpserv = http.createServer(app).listen(opts.port, function() {
 //===============================================
 var io = server(httpserv,{path: '/webshell/socket.io'});
 
-io.use(passportSocketIo.authorize({
-  cookieParser: cookieParser,
-  key:          sessionConfig.key,
-  secret:       sessionConfig.secret,
-  store:        sessionStore,
-  fail: function(data, message, error, accept) {
-    if (error) accept(new Error(message));
-  },
-  success: function(data, accept) {
-    console.log("success socket.io auth");
-    accept();
-  }
-}));
+
+// NO AUTH
+//io.use(passportSocketIo.authorize({
+//  cookieParser: cookieParser,
+//  key:          sessionConfig.key,
+//  secret:       sessionConfig.secret,
+//  store:        sessionStore,
+//  fail: function(data, message, error, accept) {
+//    if (error) accept(new Error(message));
+//  },
+//  success: function(data, accept) {
+//    console.log("success socket.io auth");
+//    accept();
+//  }
+//}));
 
 io.on('connection', function(socket){
     var request = socket.request;

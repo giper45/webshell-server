@@ -11,7 +11,7 @@ config.session = {
 
 // User authentication function
 config.authFn = function(req, username, password, cb) {
-  if (username == "foo" && password == "bar") {
+  if (username == "kali" && password == "kali") {
     var resource_id = req.body.resource_id || 'default';
     return cb(null, { id: username, resource_id: resource_id });
   } else {
@@ -22,9 +22,10 @@ config.authFn = function(req, username, password, cb) {
 // Shell Entrypoint
 // req: socket.io request object
 config.shellEntrypoint = function(req) {
+  console.log("CIAOOO")
   return {
-    script: __dirname + '/bin/entrypoint',
-    args: [req.user.resource_id],
+    //script: __dirname + '/bin/entrypoint',
+    //args: ''
   };
 }
 
